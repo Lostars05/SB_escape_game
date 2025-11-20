@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>열쇠 오답 퀴즈</title>
+  <style>
+    body {
+      background-color: #111; 
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+      display: flex;
+      
+      flex-direction: column; 
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+
+    }
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    input {
+      padding: 10px; 
+      font-size: 16px;
+      width: 80%;
+      max-width: 200px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: rgb(219, 85, 85);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #feedback {
+      margin-top: 20px;
+      font-size: 1em;
+      font-weight: bold;
+    }
+
+    #nextButton {
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h3>❌ 잘못된 🔑입니다! ❌<br></h3>
+    <h5>전 페이지로 돌아가기 위해<br>
+    아래 퀴즈의 정답을 맞추세요.
+  </h5>
+  <h1>
+        
+        스테이지 번의<br>
+        사운드 클라우드 노래 중,<br>
+        제목이 숫자인 곡을<br>
+        '모두' 작성하세요!</h1>
+  <input type="text" id="answerInput" placeholder="공백으로 구분, 순서 상관 X">
+  <button onclick="checkAnswer()">제출</button>
+  <p id="result"></p>
+
+
+  <script>
+function checkAnswer() {
+  const correctAnswers = ["010", "8", "0,0,0"];
+  const input = document.getElementById("answerInput").value;
+  const userAnswers = input.split(" ").map(item => item.trim());
+
+  const isCorrect = correctAnswers.every(ans => userAnswers.includes(ans)) &&
+                    userAnswers.length === correctAnswers.length;
+
+  if (isCorrect) {
+    // 성공 페이지로 이동
+    window.location.href = "where_is_my_key_open.html";
+  } else {
+    // 실패 페이지로 이동
+    window.location.href = "page_door_open621.html";
+  }
+}
+
+
+    
+  </script>
+  <script src="backblock.js"></script>
+</body>
+</html>

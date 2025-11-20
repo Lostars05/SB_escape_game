@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>열쇠를 찾아라!</title>
+  <style>
+    body {
+        margin: 0;
+        background-color: #000000;
+        box-sizing: border-box;
+        color: #000000;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 6vh;
+
+         /* ✅ 모바일 화면에 맞게 너비 제한 */
+        width: 100%;
+        max-width: 480px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .container {
+        background-color: #000;
+        border-radius: 20px;
+        padding: 30px;
+        width: 90vw;
+        max-width: 500px;
+        margin: 5vh auto;
+        color: #fff;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+
+    h1 {
+      font-size: clamp(1.5em, 5vw, 2em);
+    }
+
+    .door-img {
+      width: 200px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 1s ease, opacity 1s ease;
+      margin-top: 30px;
+    }
+
+
+    .fade-out {
+      opacity: 0;
+      transform: scale(1.2);
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .notice {
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #aaa;
+        line-height: 1.6;
+        white-space: pre-line;
+    }
+ 
+  </style>
+</head>
+<body>
+
+  <div class="content container">
+      <h1>🔑 Find Key</h1>
+    <img src="image_file/key_door_open.png" alt="image loading error" class="door-img" onclick="openDoor()" />
+    <div class="notice">
+      학생극장에서 열쇠를 잃어버렸습니다.<br>숨겨진 열쇠를 찾아주세요!
+    </div>
+  </div>
+
+  <script> 
+    function openDoor() { 
+      const door = document.querySelector(".door-img");
+      door.classList.add("fade-out"); // fade out 애니메이션 클래스 추가
+
+      // ✅ 진동 효과
+      if (navigator.vibrate) navigator.vibrate([200]);
+
+      setTimeout(() => {
+        window.location.href = "where_is_my_key.html"; // 다음 페이지로 이동
+      }, 1000);
+    }
+
+  </script>
+  <script src="backblock.js"></script>
+</body>
+</html>

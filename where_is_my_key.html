@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>열쇠 찾기</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-image: url('image_file/student_theater.png'); /* 배경 이미지 파일명 */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      position: absolute;            /* 화면 전체 기준으로 절대 위치 지정 */
+      top: 38.2%;                      /* 화면 세로 중앙에 위치 */
+      left: 14.2%;                     /* 화면 가로 중앙에 위치 */
+      transform: translate(-50%, -50%); /* 정확히 중앙 정렬 (자신의 크기 기준으로 이동) */
+      width: 50px;                      /* 컨테이너 자체는 크기 없음 (자식 요소만 표시됨) */
+      height: 50px;
+      object-fit: contain;
+    }
+    
+    .container2 {
+      position: absolute;            /* 화면 전체 기준으로 절대 위치 지정 */
+      top: 68%;                      /* 화면 세로 중앙에 위치 */
+      left: 26%;                     /* 화면 가로 중앙에 위치 */
+      transform: translate(-50%, -50%); /* 정확히 중앙 정렬 (자신의 크기 기준으로 이동) */
+      width: 0;                      /* 컨테이너 자체는 크기 없음 (자식 요소만 표시됨) */
+      height: 0;
+    }
+
+    .container3 {
+      position: absolute;            /* 화면 전체 기준으로 절대 위치 지정 */
+      top: 52.5%;                      /* 화면 세로 중앙에 위치 */
+      left: 36%;                     /* 화면 가로 중앙에 위치 */
+      transform: translate(-50%, -50%); /* 정확히 중앙 정렬 (자신의 크기 기준으로 이동) */
+      width: 0;                      /* 컨테이너 자체는 크기 없음 (자식 요소만 표시됨) */
+      height: 0;
+    }
+
+    .container4 {
+      position: absolute;            /* 화면 전체 기준으로 절대 위치 지정 */
+      top: 32%;                      /* 화면 세로 중앙에 위치 */
+      left: 77%;                     /* 화면 가로 중앙에 위치 */
+      transform: translate(-50%, -50%); /* 정확히 중앙 정렬 (자신의 크기 기준으로 이동) */
+      width: 0;                      /* 컨테이너 자체는 크기 없음 (자식 요소만 표시됨) */
+      height: 0;
+    }
+
+    .container5 {
+      position: absolute;            /* 화면 전체 기준으로 절대 위치 지정 */
+      top: 61.4%;                      /* 화면 세로 중앙에 위치 */
+      left: 95%;                     /* 화면 가로 중앙에 위치 */
+      transform: translate(-50%, -50%); /* 정확히 중앙 정렬 (자신의 크기 기준으로 이동) */
+      width: 0;                      /* 컨테이너 자체는 크기 없음 (자식 요소만 표시됨) */
+      height: 0;
+    }
+
+    .container6 {
+      position: absolute;            /* 화면 전체 기준으로 절대 위치 지정 */
+      top: 72%;                      /* 화면 세로 중앙에 위치 */
+      left: 31%;                     /* 화면 가로 중앙에 위치 */
+      transform: translate(-50%, -50%); /* 정확히 중앙 정렬 (자신의 크기 기준으로 이동) */
+      width: 0;                      /* 컨테이너 자체는 크기 없음 (자식 요소만 표시됨) */
+      height: 0;
+    }
+    
+
+    .key {
+      width: 100px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .key:hover {
+      transform: scale(1.1);
+    }
+
+    .key-img1 {  /*크기*/
+        width: 25px;       /* 원하는 크기로 조절 */
+        height: auto;      /* 비율 유지 */
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .key-img3 {  /*크기*/
+        width: 30px;       /* 원하는 크기로 조절 */
+        height: auto;      /* 비율 유지 */
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .key-img4 {  /*크기*/
+        width: 180px;       /* 원하는 크기로 조절 */
+        height: auto;      /* 비율 유지 */
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .key-img5 {  /*크기*/
+        width: 17px;       /* 원하는 크기로 조절 */
+        height: auto;      /* 비율 유지 */
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    .key-img6 {  /*크기*/
+        width: 360px;       /* 원하는 크기로 조절 */
+        height: auto;      /* 비율 유지 */
+        transition: transform 0.3s ease;
+    }
+    .text-overlay {
+      position: absolute;
+      top: 88%;               /* 화면 상단에서 10% 위치 */
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+      padding: 20px;
+      border-radius: 10px;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .text-overlay h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .text-overlay p {
+      font-size: 1em;
+      margin: 0;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+  <div class = "container">
+    <!-- 정답 열쇠 (성공) -->
+    <img src="image_file/answer_key.png" alt="정답 열쇠" class="key key-img1" onclick="goToSuccess()">
+  </div>  
+
+  <div class="container2">
+    <!-- 열쇠1 (실패) -->
+    <img src="image_file/key1.png" alt="잘못된 열쇠" class="key" onclick="goToFail()">
+  </div>
+
+    <div class="container3">
+    <!-- 열쇠2 (실패) -->
+    <img src="image_file/key2.png" alt="잘못된 열쇠" class="key key-img3" onclick="goToFail()">
+  </div>
+
+    <div class="container4">
+    <!-- 열쇠3 (실패) -->
+    <img src="image_file/key3.png" alt="잘못된 열쇠" class="key key-img4" onclick="goToFail()">
+  </div>
+
+   <div class="container5">
+    <!-- 열쇠4 (실패) -->
+    <img src="image_file/key4.png" alt="잘못된 열쇠" class="key key-img5" onclick="goToFail()">
+  </div>
+
+    <div class="container6">
+    <!-- 정답 열쇠 그림자 -->
+    <img src="image_file/key_shadow.png" alt="열쇠 그림자" class="key-img6">
+  </div>
+
+  <div class="text-overlay">
+  <h1>🔑 그림자와 같은 모양의<br>열쇠를 찾아보세요!</h1>
+  <p>정답 열쇠를 클릭하면 다음 방으로 이동합니다.</p>
+</div>
+
+
+  
+  <script>
+    // 성공 -> 다음 페이지로 이동
+    function goToSuccess() {
+      window.location.href = "find_mirro_r_open.html";
+    }
+
+    // 실패 -> 되돌리기 퀴즈 페이지로 이동
+    function goToFail() {
+      window.location.href = "not_my_key.html";
+    }
+  </script>
+  <script src="backblock.js"></script>
+</body>
+</html>

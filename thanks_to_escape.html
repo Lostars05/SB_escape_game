@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>The End</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      font-size: 3em;     /* 글자 크기 크게*/
+      margin-top: -40px;  /* 위로 올리기*/
+      margin-bottom: 10px /* 아래 여백 줄이기*/
+    }
+
+    p {
+      font-size: 2em;     /* 글자 크기 키우기 */
+      margin-top: -10px;    /* 위로 조금 올리기 */
+      margin-bottom: 20px;  /* 아래 여백 */
+    }
+
+
+    #door {
+      width: 300px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    #door:hover {
+      transform: scale(1.05);
+    }
+
+    #club-photo {
+      display: none; /* 처음에는 숨김 */
+      margin-top: 20px;
+      max-width: 80%;
+      border: 5px solid #fff;
+      box-shadow: 0 0 20px rgba(255,255,255,0.8);
+      transform: translateX(85px); /* 오른쪽으로 50px 이동 */
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 마지막 문제를 풀었습니다! 🎉</h1>
+  <p>문을 클릭하면 탈출합니다!</p>
+
+  <!-- 열린 문 이미지 -->
+  <img id="door" src="image_file/ending_door.png" alt="열린 문">
+
+  <!-- 동아리 단체 사진 -->
+  <a id="photo-link" href="https://padlet.com/escapepage25/stage_burn_2025" target="_blank">
+    <img id="club-photo" src="image_file/vOv.JPG" alt="동아리 단체 사진">
+  </a>
+
+  <!-- 폭죽 효과용 라이브러리 (canvas-confetti) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const door = document.getElementById('door');
+    const photo = document.getElementById('club-photo');
+
+    // 문 클릭 이벤트
+    door.addEventListener('click', () => {
+      // 문 숨기고 단체사진 표시
+      door.style.display = 'none';
+      photo.style.display = 'block';
+
+      // 폭죽 효과 실행
+      confetti({
+        particleCount: 500,   // 폭죽 알갯수
+        spread: 200,          // 퍼지는 범위
+        origin: { y: 0.6 }    // 화면 아래쪽에서 터지도록 설정
+      });
+    });
+  </script>
+</body>
+</html>

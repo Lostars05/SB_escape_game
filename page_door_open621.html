@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>업다운 게임</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      max-width: 200px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: rgb(219, 85, 85);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #feedback {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    #nextButton {
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>1부터 1000 사이의 숫자를 맞혀보세요!</h1>
+  <input type="number" id="guess" placeholder="숫자 입력" />
+  <br />
+  <button onclick="checkGuess()">제출</button>
+  <div id="feedback"></div>
+  <div id="nextButton">
+    <button onclick="location.href='where_is_my_key_open.html'">다음으로 이동</button>
+  </div>
+
+  <script>
+    const answer = 293;
+
+    function checkGuess() {
+      const userGuess = parseInt(document.getElementById("guess").value);
+      const feedback = document.getElementById("feedback");
+      const nextButton = document.getElementById("nextButton");
+
+      if (isNaN(userGuess) || userGuess < 1 || userGuess > 1000) {
+        feedback.innerText = "⚠️ 1부터 1000 사이의 숫자를 입력하세요!";
+        nextButton.style.display = "none";
+        return;
+      }
+
+      if (userGuess < answer) {
+        feedback.innerText = "📈 업!";
+        nextButton.style.display = "none";
+      } else if (userGuess > answer) {
+        feedback.innerText = "📉 다운!";
+        nextButton.style.display = "none";
+      } else {
+        feedback.innerText = "🎉 정답입니다! 다음 방으로 이동하세요!";
+        nextButton.style.display = "block";
+      }
+    }
+    
+  </script>
+  <script src="backblock.js"></script>
+</body>
+</html>

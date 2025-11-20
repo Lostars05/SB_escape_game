@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>미로 찾기</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #000;
+      touch-action: manipulation;
+    }
+
+    #game-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #maze {
+      position: absolute;
+      width: 2000px;
+      height: 2000px;
+      background-image: url('image_file/mirror.png');
+      background-size: cover;
+      left: -980px;
+      top: -980px;
+      transition: left 0.05s, top 0.05s;
+    }
+
+    #vision-mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9;
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 120px, rgba(0, 0, 0, 0.9) 250px);
+    }
+
+    #player {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 190px;
+      height: 190px;
+      margin-left: -100px;
+      margin-top: -100px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    #player img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.1s ease;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: grid;
+      grid-template-columns: repeat(3, 130px);
+      grid-template-rows: repeat(2, 130px);
+      gap: 10px;
+      z-index: 20;
+    }
+
+    .btn {
+      width: 130px;
+      height: 130px;
+      font-size: 48px;
+      line-height: 130px;
+      text-align: center;
+      background-color: #888;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      border: 2px solid #fff;
+    }
+
+    .btn:active {
+      background-color: #f44336;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="maze"></div>
+    <div id="vision-mask"></div>
+    <div id="player">
+      <img id="player-img" src="image_file/player1.png" alt="캐릭터" />
+    </div>
+
+    <div class="controls">
+      <div></div>
+      <div class="btn" data-dir="up">↑</div>
+      <div></div>
+      <div class="btn" data-dir="left">←</div>
+      <div class="btn" data-dir="down">↓</div>
+      <div class="btn" data-dir="right">→</div>
+    </div>
+  </div>
+
+  <script>
+    const maze = document.getElementById('maze');
+    const playerImg = document.getElementById('player-img');
+    let mazeX = -1260;
+    let mazeY = -900;
+    const speed = 18;
+    let moveInterval = null;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 2000;
+    canvas.height = 2000;
+    const ctx = canvas.getContext('2d');
+
+    let imageReady = false;
+    const mazeImage = new Image();
+    mazeImage.src = 'image_file/mirror.png';
+    mazeImage.onload = () => {
+      ctx.drawImage(mazeImage, 0, 0, 2000, 2000);
+
+      imageReady = true;
+    };
+
+    //도착 감지
+    function isGoalReached(x, y) {
+      if (!imageReady) return false;
+      const pixel = ctx.getImageData(x, y, 1, 1).data;
+      const r = pixel[0];
+      const g = pixel[1];
+      const b = pixel[2];
+
+      // 빨간색 근처 값 감지
+      return r > 200 && g < 80 && b < 80;
+    }
+
+
+    function updatePlayerImage(direction) {
+     if (direction === 'up') {
+      // 위쪽 이동 → player2.png
+      playerImg.src = 'image_file/player2.png';
+    } else if (direction === 'down') {
+      // 아래쪽 이동 → player1.png
+      playerImg.src = 'image_file/player1.png';
+    } else if (direction === 'left') {
+      // 왼쪽 이동 → player3.png (새 이미지 필요)
+      playerImg.src = 'image_file/player3.png';
+    } else if (direction === 'right') {
+      // 오른쪽 이동 → player4.png (새 이미지 필요)
+      playerImg.src = 'image_file/player4.png';
+    }
+  }
+
+
+    function isWallPixel(pixel) {
+      return pixel[0] > 240 && pixel[1] > 240 && pixel[2] > 240;
+    }
+
+    function isCollision(x, y) {
+    if (!imageReady) return false;
+
+    const size = 40; // 캐릭터 반지름 정도
+    const step = 10; // 검사 간격
+
+    for (let dx = -size; dx <= size; dx += step) {
+      for (let dy = -size; dy <= size; dy += step) {
+        const pixel = ctx.getImageData(x + dx, y + dy, 1, 1).data;
+        if (pixel[0] > 240 && pixel[1] > 240 && pixel[2] > 240) {
+          return true; // 흰색 벽이면 충돌
+        }
+      }
+    }
+    return false;
+
+    }
+
+    function startMoving(direction) {
+      if (moveInterval) return;
+
+      updatePlayerImage(direction);
+
+      moveInterval = setInterval(() => {
+        let newX = mazeX;
+        let newY = mazeY;
+
+        if (direction === 'up') newY += speed;
+        if (direction === 'down') newY -= speed;
+        if (direction === 'left') newX += speed;
+        if (direction === 'right') newX -= speed;
+
+        const playerX = Math.floor(-newX + window.innerWidth / 2);
+        const playerY = Math.floor(-newY + window.innerHeight / 2);
+
+        if (!isCollision(playerX, playerY)) {
+          mazeX = newX;
+          mazeY = newY;
+          maze.style.left = mazeX + 'px';
+          maze.style.top = mazeY + 'px';
+
+
+          if (isGoalReached(playerX, playerY)) {
+             window.location.href = 'what_is_number.html';
+             return;
+           }
+
+        } else {
+          playerImg.style.transform = 'scale(1.05) rotate(2deg)';
+          setTimeout(() => {
+            playerImg.style.transform = 'scale(1) rotate(0deg)';
+          }, 100);
+        }
+      }, 50);
+    }
+
+    function stopMoving() {
+      clearInterval(moveInterval);
+      moveInterval = null;
+    }
+
+    document.querySelectorAll('.btn').forEach(btn => {
+      const direction = btn.getAttribute('data-dir');
+
+      btn.addEventListener('touchstart', () => startMoving(direction));
+      btn.addEventListener('mousedown', () => startMoving(direction));
+
+      btn.addEventListener('touchend', stopMoving);
+      btn.addEventListener('mouseup', stopMoving);
+      btn.addEventListener('mouseleave', stopMoving);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      maze.style.left = mazeX + 'px';
+      maze.style.top = mazeY + 'px';
+    });
+
+
+  </script>
+  <script src="backblock.js"></script>
+</body>
+</html>

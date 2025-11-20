@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>문열기 문제</title>
+  <style>
+    body {
+      background-color: #111; 
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+      display: flex;
+      
+      flex-direction: column; 
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+
+    }
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    input {
+      padding: 10px; 
+      font-size: 16px;
+      width: 80%;
+      max-width: 200px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: rgb(219, 85, 85);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #feedback {
+      margin-top: 20px;
+      font-size: 1em;
+      font-weight: bold;
+    }
+
+    #nextButton {
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>2025년 스테이지 번의<br>
+    기수와 동방 호실의 합은?</h1>
+  <input type="number" id="guess" placeholder="숫자 입력" />
+  <br />
+  <button onclick="checkGuess()">제출</button>
+  <div id="feedback"></div>
+
+  <script>
+    const answer = 621;
+
+    function checkGuess() {
+      const userGuess = parseInt(document.getElementById("guess").value);
+      const feedback = document.getElementById("feedback");
+      const nextButton = document.getElementById("nextButton");
+
+
+      if (userGuess != answer) {
+        feedback.innerText = "다시 생각해보세요."; 
+        nextButton.style.display = "none";
+      } else {
+        feedback.innerText = "🎉 정답입니다! 다음 방으로 이동합니다.";
+        setTimeout(() => {
+          location.replace("page_door_open621.html");
+        }, 1000);
+
+      }
+    }
+    
+  </script>
+  <script src="backblock.js"></script>
+</body>
+</html>

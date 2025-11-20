@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>기억 되감기 퀴즈</title>
+  <style>
+    body {
+      background-color: #111; 
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+      display: flex;
+      
+      flex-direction: column; 
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+
+    }
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    input {
+      padding: 10px; 
+      font-size: 16px;
+      width: 80%;
+      max-width: 200px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: rgb(219, 85, 85);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #feedback {
+      margin-top: 20px;
+      font-size: 1em;
+      font-weight: bold;
+    }
+
+    #nextButton {
+      margin-top: 20px;
+      display: none;
+    }
+
+#seeAnswerBtn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #444;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+  </style>
+</head>
+<body>
+    <h5>기억을 되감아봅시다!<br>
+    아래 퀴즈의 정답을 맞추세요.
+  </h5>
+  <h1>
+        이전에 플레이한<br>
+        up-down 게임의<br>
+        답은 무엇이었을까요??<br>
+    </h1>
+  <input type="text" id="answerInput">
+  <button onclick="checkAnswer()">제출</button>
+  <p id="result"></p>
+
+  <button id="seeAnswerBtn" onclick="window.location.href='page_door_open621.html'">
+    정답 보러가기
+  </button>
+
+  <script>
+function checkAnswer() {
+  const correctAnswers = ["293"];
+  const input = document.getElementById("answerInput").value;
+  const userAnswers = input.split(" ").map(item => item.trim());
+
+  const isCorrect = correctAnswers.every(ans => userAnswers.includes(ans)) &&
+                    userAnswers.length === correctAnswers.length
+                    
+  const result = document.getElementById("result");
+
+
+  if (isCorrect) {
+    // 성공 - 유튜브 영상으로 이동
+    window.location.href = "유튜브 영상 링크";
+  } else {
+    // 실패
+    result.textContent = "다시 생각해보세요.";
+    result.style.color = "#f44336"; // 빨간색 강조
+  }
+}
+
+    
+  </script>
+  <script src="backblock.js"></script>
+</body>
+</html>
