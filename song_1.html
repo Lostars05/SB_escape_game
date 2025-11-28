@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>노래 맞추기 게임</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 { font-size: 1.5em; }
+    input { padding: 10px; font-size: 16px; width: 80%; max-width: 250px; }
+    button { margin-top: 10px; padding: 10px 20px; font-size: 16px; background-color: rgb(219,85,85); color: white; border: none; border-radius: 5px; cursor: pointer; }
+    #feedback { margin-top: 20px; font-size: 1em; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>노래를 듣고 제목을 맞춰보세요!</h1>
+
+  <!-- 🎵 노래 파일 경로를 src에 넣으세요 -->
+  <audio id="song">
+    <source src="music/on_the_top.wav" type="audio/mpeg" />
+    브라우저가 오디오를 지원하지 않습니다.
+  </audio>
+  <br/>
+  <button onclick="playSnippet()">노래 듣기 (1초)</button>
+
+  <input type="text" id="guess" placeholder="노래 제목을 입력해주세요" />
+  <br/>
+  <button onclick="checkGuess()">제출</button>
+  <div id="feedback"></div>
+
+  <script>
+    const answer = "On The Top"; // 정답을 여기에 입력하세요
+
+    function playSnippet() {
+      const audio = document.getElementById("song");
+      audio.currentTime = 0; // 항상 처음부터 시작
+      audio.play();
+      setTimeout(() => {
+        audio.pause();
+      }, 1000); // 1초 후 정지
+    }
+
+    function checkGuess() {
+      const userGuess = document.getElementById("guess").value.trim().toLowerCase();
+      const feedback = document.getElementById("feedback");
+
+    if (userGuess === answer.trim().toLowerCase()) {
+      feedback.innerText = "🎉 정답입니다! 다음 문제로 이동합니다...";
+      setTimeout(() => {
+        location.replace("song_2.html"); // ✅ 다음 문제 페이지로 이동
+      }, 1500); // 1.5초 후 이동
+    } else {
+      feedback.innerText = "❌ 틀렸습니다. 다시 시도해보세요.";
+    }
+
+    }
+  </script>
+</body>
+</html>
