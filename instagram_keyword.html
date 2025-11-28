@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>인스타그램 퀴즈 답 입력창</title>
+  <style>
+    body {
+      background-color: #111; 
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+      display: flex;
+      
+      flex-direction: column; 
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+
+    }
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    input {
+      padding: 10px; 
+      font-size: 16px;
+      width: 80%;
+      max-width: 200px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: rgb(219, 85, 85);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #feedback {
+      margin-top: 20px;
+      font-size: 1em;
+      font-weight: bold;
+    }
+
+    #nextButton {
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>피드에서 찾은 답을 입력해주세요!</h1>
+  <input type="text" id="guess" placeholder="답을 입력해주세요" />
+  <br />
+  <button onclick="checkGuess()">제출</button>
+  <div id="feedback"></div>
+
+<script>
+  // backblock.js 로드 후에 사용
+  const answer = String(window.stage || "stage").trim().toLowerCase();
+
+  function checkGuess() {
+    const userGuess = document.getElementById("guess").value.trim().toLowerCase();
+    const feedback = document.getElementById("feedback");
+
+    if (!answer) {
+      feedback.innerText = "답 설정에 문제가 있습니다(stage 변수가 비어있어요).";
+      return;
+    }
+
+    if (userGuess !== answer) {
+      feedback.innerText = "다시 생각해보세요.";
+    } else {
+      feedback.innerText = "🎉 정답입니다! 다음 방으로 이동합니다.";
+      setTimeout(() => {
+        location.replace("노래듣고 맞추기로 이동.html");
+      }, 1000);
+    }
+  }
+</script>
+
+  <script src="backblock.js"></script>
+</body>
+</html>
